@@ -14,8 +14,8 @@ int main(){
     json cities_json;
     vector<node*> city;
     string line;
-    std::ifstream p(R"(C:\Users\86183\Desktop\algorithm\patients.json)");
-    std::ifstream c(R"(C:\Users\86183\Desktop\algorithm\in.json)");
+    std::ifstream p(R"(patients.json)");
+    std::ifstream c(R"(in.json)");
     p >> patients_json;
     c >> cities_json;
 
