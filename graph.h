@@ -132,12 +132,15 @@ void graph::dfsUtil(int start, int endPoint) {
     cout<<"The shortest path:"<<endl;
     while(!stackForOutput.empty())
     {
-        cout<<stackForOutput.top()<<" ";
+        cout<<cities[stackForOutput.top()]->get_name()<<" ";
         if (stackForOutput.size()==1){
-            str+=std::to_string(stackForOutput.top());
+            int city = stackForOutput.top();
+
+            str+=cities[stackForOutput.top()]->get_name();
 
         }
-        else{str+=std::to_string(stackForOutput.top())+" -> ";}
+        else{
+            cout<<" -> ";str+=cities[stackForOutput.top()]->get_name()+" -> ";}
         stackForOutput.pop();
 
     }
