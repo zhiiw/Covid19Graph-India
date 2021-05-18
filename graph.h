@@ -226,12 +226,15 @@ void graph::bfs_1(string cityName) {
     bfsUtil(delhi,destination);
 
 }
+//from high risk city to low risk city' s shortest path.
 void graph::bfs_2(string highRiskCity, string lowRiskCity) {
     int start=0;
     int destination = 0;
+    int low, high;
     for(int i = 0; i < v; i++){
         if(cities[i]->get_name() == lowRiskCity){
             destination=i;
+            low  = cities[i]->get_num();
             break;
         }
 
@@ -239,8 +242,13 @@ void graph::bfs_2(string highRiskCity, string lowRiskCity) {
     for(int i = 0; i < v; i++){
         if(cities[i]->get_name() ==highRiskCity){
             start=i;
+            int high  = cities[i]->get_num();
+
             break;
         }
+    }
+    if (high<low){
+        cout<<"please  choose the high risk as the first parameter.";
     }
     bfsUtil(start,destination);
 }
