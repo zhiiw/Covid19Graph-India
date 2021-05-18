@@ -43,6 +43,6 @@ int main() {
     matrix_graph->init_distance();
     cout << matrix_graph->to_string() << endl;
     cout << matrix_graph->city_to_string() << endl;
-    matrix_graph->dfs_1("Latur");
+    matrix_graph->bfs_1("Latur");
     return 0;
 }

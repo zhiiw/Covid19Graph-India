@@ -19,7 +19,7 @@ private:
     int vertices;
     int edge;
     vector<vector<double>> a;
-    void dfsUtil(int start,int end);
+    void bfsUtil(int start,int end);
 public:
     graph();
     explicit graph(int num);
@@ -27,8 +27,8 @@ public:
     void add_edge(int i, int j, double weight);
     void add_city(node* city);
     void add_patient(const string& city_name, const string& district_name, const string& state_name);
-    void dfs_1(string cityName);
-    void dfs_2(string highRiskCity,string lowRiskCity);
+    void bfs_1(string cityName);
+    void bfs_2(string highRiskCity,string lowRiskCity);
     string to_string();
     string city_to_string();
     static double rad(double d);
@@ -79,7 +79,7 @@ string graph::to_string()
     }
     return os.str();
 }
-void graph::dfsUtil(int start, int endPoint) {
+void graph::bfsUtil(int start, int endPoint) {
     int set[1000],min,i,j,u;
     int path[10000];
     int dist[1000];
@@ -207,7 +207,7 @@ void graph::init_distance() {
     }
 }
 //count the shortest path from delhi to another city
-void graph::dfs_1(string cityName) {
+void graph::bfs_1(string cityName) {
     int delhi=0;
     int destination = 0;
     for(int i = 0; i < v; i++){
@@ -226,7 +226,7 @@ void graph::dfs_1(string cityName) {
     dfsUtil(delhi,destination);
 
 }
-void graph::dfs_2(string highRiskCity, string lowRiskCity) {
+void graph::bfs_2(string highRiskCity, string lowRiskCity) {
     int start=0;
     int destination = 0;
     for(int i = 0; i < v; i++){
