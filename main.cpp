@@ -35,7 +35,9 @@ int main(){
     int patient_num = (int)patients_json.at("data").at("rawPatientData").size();
     for(int i = 0; i < patient_num; i++){
         string city_name = (string)patients_json.at("data").at("rawPatientData")[i].at("city");
-        matrix_graph->add_patient(city_name);
+        string district_name = (string)patients_json.at("data").at("rawPatientData")[i].at("district");
+        string state_name = (string)patients_json.at("data").at("rawPatientData")[i].at("state");
+        matrix_graph->add_patient(city_name, district_name, state_name);
     }
     matrix_graph->init_distance();
     cout << matrix_graph->to_string() << endl;

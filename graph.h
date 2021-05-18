@@ -25,7 +25,7 @@ public:
     void init_distance();
     void add_edge(int i, int j, double weight);
     void add_city(node* city);
-    void add_patient(const string& city_name);
+    void add_patient(const string& city_name, const string& district_name, const string& state_name);
     void dfs_1(string cityName);
     void dfs_2(string highRiskCity,string lowRiskCity);
     string to_string();
@@ -151,14 +151,15 @@ string graph::city_to_string(){
     return os.str();
 }
 
-void graph::add_patient(const string& city_name) {
+void graph::add_patient(const string& city_name, const string& district_name, const string& state_name) {
     for(int i = 0; i < v; i++){
-        if(cities[i]->get_name() == city_name){
+        if(cities[i]->get_name() == city_name || cities[i]->get_name() == district_name || cities[i]->get_name() == state_name){
             cities[i]->add_patient();
             break;
         }
     }
 }
+
 
 double graph::real_distance(double lat1, double lng1, double lat2, double lng2) {
     double a;
