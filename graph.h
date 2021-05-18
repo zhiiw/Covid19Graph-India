@@ -223,7 +223,7 @@ void graph::bfs_1(string cityName) {
             break;
         }
     }
-    dfsUtil(delhi,destination);
+    bfsUtil(delhi,destination);
 
 }
 void graph::bfs_2(string highRiskCity, string lowRiskCity) {
@@ -242,6 +242,6 @@ void graph::bfs_2(string highRiskCity, string lowRiskCity) {
             break;
         }
     }
-    dfsUtil(start,destination);
+    bfsUtil(start,destination);
 }
 #endif //COVID19GRAPH_INDIA_GRAPH_H
