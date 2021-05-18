@@ -4,7 +4,7 @@
 
 #ifndef COVID19GRAPH_INDIA_GRAPH_H
 #define COVID19GRAPH_INDIA_GRAPH_H
-
+#include <stack>
 #include "node.h"
 #include <sstream>
 #include <vector>
@@ -16,8 +16,9 @@ class graph {
 private:
     vector<node*> cities;
     int v;
+    int edge;
     vector<vector<double>> a;
-
+    void dfsUtil(int start,int end);
 public:
     graph();
     explicit graph(int num);
@@ -25,6 +26,8 @@ public:
     void add_edge(int i, int j, double weight);
     void add_city(node* city);
     void add_patient(const string& city_name);
+    void dfs_1(string cityName);
+    void dfs_2(string highRiskCity,string lowRiskCity);
     string to_string();
     string city_to_string();
     static double rad(double d);
@@ -57,6 +60,7 @@ graph::graph(int num) {
 
 void graph::add_edge(int i, int j, double weight) {
     a[i][j] = a[j][i] = weight;
+    edge++;
 }
 
 void graph::add_city(node* city){
@@ -72,7 +76,72 @@ string graph::to_string()
     }
     return os.str();
 }
+void graph::dfsUtil(int start, int endPoint) {
+    int set[100],min,i,j,u;
+    int path[10000];
+    int dist[1000];
 
+    for(i=0;i<=183;i++)
+    {
+        dist[i]= a[start][i];
+        set[i]=0;//initial not pass
+        if(a[start][i]<INT64_MAX)
+        {
+            path[i]=start;
+        }
+        else
+        {
+            path[i]=-1;
+        }
+    }
+    set[start]=1;
+    path[start]=-1;
+    for(int i=0;i<edge-1;i++)
+    {
+        min=10000;
+        for(j=0;j<184;j++)
+        {
+            if(set[j]==0&&dist[j]<min)
+            {
+                u=j;
+                min=dist[j];
+            }
+        }
+        set[u]=1;
+        for(j=0;j<184;j++)
+        {
+            if(set[j]==0&&dist[u]+a[u][j]<dist[j])
+            {
+                dist[j]=dist[u]+a[u][j];
+                path[j]=u;
+            }
+        }
+    }
+    int end;
+    stack <int> stackForOutput;
+    string str="";
+    while(path[endPoint]!=-1)
+    {
+        stackForOutput.push(endPoint);
+        endPoint=path[endPoint];
+    }
+    stackForOutput.push(endPoint);
+    cout<<"The shortest path:"<<endl;
+    while(!stackForOutput.empty())
+    {
+        cout<<stackForOutput.top()<<" ";
+        if (stackForOutput.size()==1){
+            str+=std::to_string(stackForOutput.top());
+
+        }
+        else{str+=std::to_string(stackForOutput.top())+" -> ";}
+        stackForOutput.pop();
+
+    }
+    cout<<endl;
+    str+= "\n the distance is "+std::to_string(dist[end]);
+
+}
 string graph::city_to_string(){
     ostringstream os;
     for (int i = 0; i < v; i++){
@@ -117,5 +186,43 @@ void graph::init_distance() {
             add_edge(i, j, distance);
         }
     }
+}
+//count the shortest path from delhi to another city
+void graph::dfs_1(string cityName) {
+    int delhi=0;
+    int destination = 0;
+    for(int i = 0; i < v; i++){
+        if(cities[i]->get_name() == cityName){
+            destination=i;
+            break;
+        }
+
+    }
+    for(int i = 0; i < v; i++){
+        if(cities[i]->get_name() =="Delhi"){
+            delhi=i;
+            break;
+        }
+    }
+    dfsUtil(delhi,destination);
+
+}
+void graph::dfs_2(string highRiskCity, string lowRiskCity) {
+    int start=0;
+    int destination = 0;
+    for(int i = 0; i < v; i++){
+        if(cities[i]->get_name() == lowRiskCity){
+            destination=i;
+            break;
+        }
+
+    }
+    for(int i = 0; i < v; i++){
+        if(cities[i]->get_name() ==highRiskCity){
+            start=i;
+            break;
+        }
+    }
+    dfsUtil(start,destination);
 }
 #endif //COVID19GRAPH_INDIA_GRAPH_H

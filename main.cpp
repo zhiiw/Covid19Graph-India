@@ -19,7 +19,7 @@ int main(){
     p >> patients_json;
     c >> cities_json;
 
-    cout << cities_json[186].at("city") << endl;
+    cout << cities_json[165].at("city") << endl;
     cout << cities_json[186].at("lat") << endl;
     cout << cities_json[186].at("lng") << endl;
     int city_num = (int)cities_json.size();
@@ -40,6 +40,6 @@ int main(){
     matrix_graph->init_distance();
     cout << matrix_graph->to_string() << endl;
     cout << matrix_graph->city_to_string() << endl;
-
+    matrix_graph->dfs_1("Port Blair");
     return 0;
 }
