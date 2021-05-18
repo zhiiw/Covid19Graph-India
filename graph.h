@@ -16,6 +16,7 @@ class graph {
 private:
     vector<node*> cities;
     int v;
+    int vertices;
     int edge;
     vector<vector<double>> a;
     void dfsUtil(int start,int end);
@@ -36,6 +37,8 @@ public:
 
 graph::graph() {
     v = 200;
+    edge=0;
+    vertices=0;
     cities = vector<node*>(v);
     a = vector<vector<double>>(v);
     for (int i =0; i<v; i++) a[i] = vector<double>(v);
@@ -77,15 +80,15 @@ string graph::to_string()
     return os.str();
 }
 void graph::dfsUtil(int start, int endPoint) {
-    int set[100],min,i,j,u;
+    int set[1000],min,i,j,u;
     int path[10000];
     int dist[1000];
 
-    for(i=0;i<=183;i++)
+    for(i=0;i<v;i++)
     {
         dist[i]= a[start][i];
         set[i]=0;//initial not pass
-        if(a[start][i]<INT64_MAX)
+        if(a[start][i]<INT32_MAX)
         {
             path[i]=start;
         }
@@ -96,19 +99,19 @@ void graph::dfsUtil(int start, int endPoint) {
     }
     set[start]=1;
     path[start]=-1;
-    for(int i=0;i<edge-1;i++)
+    for(int i=0;i<v-1;i++)
     {
-        min=10000;
-        for(j=0;j<184;j++)
+        min=INT32_MAX;
+        for(j=0;j<v;j++)
         {
             if(set[j]==0&&dist[j]<min)
             {
                 u=j;
-                min=dist[j];
+                min=dist[j];cout<<"the dist is "<<dist[j]<<endl;
             }
         }
         set[u]=1;
-        for(j=0;j<184;j++)
+        for(j=0;j<v;j++)
         {
             if(set[j]==0&&dist[u]+a[u][j]<dist[j])
             {
@@ -140,7 +143,9 @@ void graph::dfsUtil(int start, int endPoint) {
     }
     cout<<endl;
     str+= "\n the distance is "+std::to_string(dist[end]);
-
+    for(int i=1;i<v;i++) {
+        cout << dist[i] << " ";
+    }
 }
 string graph::city_to_string(){
     ostringstream os;
@@ -184,7 +189,17 @@ void graph::init_distance() {
         for(int j = i + 1; j < v; j++){
             double distance = real_distance(cities[i]->get_lat(), cities[i]->get_lng(),
                                             cities[j]->get_lat(), cities[j]->get_lng());
-            add_edge(i, j, distance);
+            if (distance>600){
+                add_edge(i, j, 10000);
+
+            }
+            else{
+                add_edge(i, j, distance);
+
+            }
+
+
+
         }
     }
 }
